@@ -12,13 +12,16 @@ class ChessboardScreen extends StatelessWidget {
     final String? fen = ModalRoute.of(context)?.settings.arguments as String?;
     return Scaffold(
       appBar: CustomAppBar(
+        title: 'My chess',
         controller: controller,
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 20.0),
-        child: ChessboardWidget(
-          initialFEN: fen,
-          controller: controller,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 10.0),
+          child: ChessboardWidget(
+            initialFEN: fen,
+            controller: controller,
+          ),
         ),
       ),
     );

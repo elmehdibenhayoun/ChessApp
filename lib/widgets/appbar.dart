@@ -8,8 +8,10 @@ import 'package:provider/provider.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final ChessBoardController controller;
+  final String title;
 
-  const CustomAppBar({super.key, required this.controller});
+  const CustomAppBar(
+      {super.key, required this.controller, required this.title});
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
@@ -21,52 +23,22 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         case BoardColor.brown:
           return Colors.brown;
         case BoardColor.darkBrown:
-          return Colors
-              .brown.shade900; 
+          return Colors.brown.shade900;
         case BoardColor.green:
           return const Color.fromARGB(255, 76, 160, 175);
         case BoardColor.orange:
           return Colors.orange;
         default:
-          return Colors.orange; 
+          return Colors.orange;
       }
     }
 
     return AppBar(
       backgroundColor: mapBoardColorToColor(chessboardState.currentBoardColor),
-      title: const Text('Chessboard Screen'),
+      title: Text(title),
       actions: [
         PopupMenuButton<String>(
-          itemBuilder: (BuildContext context) {
-            return [
-              const PopupMenuItem<String>(
-                value: 'Nouvelle partie',
-                child: Text('Nouvelle partie'),
-              ),
-              const PopupMenuItem<String>(
-                value: 'Inverser le plateau',
-                child: Text('Inverser le plateau'),
-              ),
-              const PopupMenuItem<String>(
-                value: 'Mettre Position',
-                child: Text('Mettre Position'),
-              ),
-            ];
-          },
-          onSelected: (String value) {
-            if (value == 'Mettre Position') {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ManualPosition()),
-              );
-            } else if (value == 'Nouvelle partie') {
-              controller.resetBoard();
-            } else if (value == 'Inverser le plateau') {
-              chessboardState.toggleBoardOrientation();
-            }
-          },
-        ),
-        PopupMenuButton<String>(
+          icon: const Icon(Icons.palette),
           itemBuilder: (BuildContext context) {
             return [
               const PopupMenuItem<String>(
@@ -96,6 +68,36 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               chessboardState.setBoardColor(BoardColor.green);
             } else if (value == 'orange') {
               chessboardState.setBoardColor(BoardColor.orange);
+            }
+          },
+        ),
+        PopupMenuButton<String>(
+          itemBuilder: (BuildContext context) {
+            return [
+              const PopupMenuItem<String>(
+                value: 'Nouvelle partie',
+                child: Text('Nouvelle partie'),
+              ),
+              const PopupMenuItem<String>(
+                value: 'Inverser le plateau',
+                child: Text('Inverser le plateau'),
+              ),
+              const PopupMenuItem<String>(
+                value: 'Mettre Position',
+                child: Text('Mettre Position'),
+              ),
+            ];
+          },
+          onSelected: (String value) {
+            if (value == 'Mettre Position') {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ManualPosition()),
+              );
+            } else if (value == 'Nouvelle partie') {
+              controller.resetBoard();
+            } else if (value == 'Inverser le plateau') {
+              chessboardState.toggleBoardOrientation();
             }
           },
         ),

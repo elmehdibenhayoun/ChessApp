@@ -13,6 +13,7 @@ class ManualPosition extends StatelessWidget {
     ChessBoardController controller = ChessBoardController();
     return Scaffold(
       appBar: CustomAppBar(
+        title: 'Position',
         controller: controller,
       ),
       body: const SizedBox(

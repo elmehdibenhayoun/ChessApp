@@ -62,9 +62,11 @@ class ChessboardWidgetState extends State<ChessboardWidget> {
       body: Column(
         children: [
           Expanded(
-            child: Center(
+            child: Align(
+              alignment: Alignment.center,
               child: ChessBoard(
-                //size: MediaQuery.of(context).size.width,
+                //size: MediaQuery.of(context).size.width * 1.1,
+
                 controller: widget.controller,
                 boardColor: chessboardState.currentBoardColor,
                 boardOrientation: chessboardState.isBoardFlipped
@@ -80,18 +82,24 @@ class ChessboardWidgetState extends State<ChessboardWidget> {
                 child: ValueListenableBuilder<Chess>(
                   valueListenable: widget.controller,
                   builder: (context, game, _) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.grey, // Couleur de la bordure
-                          width: 1.5, // Largeur de la bordure
+                    return Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.grey, // Couleur de la bordure
+                              width: 1.5, // Largeur de la bordure
+                            ),
+                          ),
+                          child: CircleAvatar(
+                            backgroundColor:
+                                turn() == true ? Colors.white : Colors.black,
+                            radius: 7,
+                          ),
                         ),
-                      ),
-                      child: CircleAvatar(
-                        backgroundColor:
-                            turn() == true ? Colors.white : Colors.black,
-                        radius: 7,
                       ),
                     );
                   },
@@ -102,22 +110,18 @@ class ChessboardWidgetState extends State<ChessboardWidget> {
                   valueListenable: widget.controller,
                   builder: (context, game, _) {
                     return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         IconButton(
                             icon: const Icon(Icons.arrow_back),
                             onPressed: () {
                               widget.controller.goToPreviousMove();
                             }),
+                        SizedBox(width: 50.0),
                         IconButton(
                             icon: const Icon(Icons.arrow_forward),
                             onPressed: () {
                               widget.controller.goToNextMove();
-                            }),
-                        IconButton(
-                            icon: const Icon(Icons.restart_alt_rounded),
-                            onPressed: () {
-                              widget.controller.resetBoard();
                             }),
                       ],
                     );
@@ -126,25 +130,6 @@ class ChessboardWidgetState extends State<ChessboardWidget> {
               ),
             ],
           ),
-          // Expanded(
-          //   child: ValueListenableBuilder<Chess>(
-          //     valueListenable: controller,
-          //     builder: (context, game, _) {
-          //       // Arrière-plan blanc par défaut
-          //       return Column(
-          //         children: [
-          //           Text(
-          //             controller.getSan().fold(
-          //                   '',
-          //                   (previousValue, element) =>
-          //                       previousValue + element! + '',
-          //                 ),
-          //           ),
-          //         ],
-          //       );
-          //     },
-          //   ),
-          // )
           Expanded(
             child: ValueListenableBuilder<Chess>(
               valueListenable: widget.controller,
